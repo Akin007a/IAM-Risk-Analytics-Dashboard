@@ -1,7 +1,4 @@
 ### IAM-Risk-Analytics-Dashboard
-IAM Risk &amp; Access Analytics Dashboard
-
-IAM Risk & Access Analytics Dashboard
 
 ### Overview
 

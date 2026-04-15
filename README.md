@@ -180,17 +180,17 @@ HAVING COUNT(role_id) > 1;
 
 ## Visuals to Include
 
-# KPI Cards:
+## KPI Cards:
 
 Total Users
 Inactive Users
 High-Risk Users
 
-# Bar Chart:
+## Bar Chart:
 Users by Risk Level
 
-# Line Chart:
+## Line Chart:
 Login Trends
 
-# Table:
+## Table:
 Users with multiple roles

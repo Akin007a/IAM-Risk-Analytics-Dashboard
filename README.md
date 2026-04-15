@@ -106,3 +106,91 @@ permission_id (INT)
 role_id (INT)
 resource (VARCHAR)
 access_level (VARCHAR) -- Read / Write / Admin
+
+🧠 2. SAMPLE SQL TABLE CREATION
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50),
+    department VARCHAR(50),
+    job_role VARCHAR(50),
+    status VARCHAR(20),
+    created_date DATE,
+    last_login_date DATE
+);
+
+CREATE TABLE roles (
+    role_id INT PRIMARY KEY,
+    role_name VARCHAR(50),
+    risk_level VARCHAR(20)
+);
+
+CREATE TABLE user_roles (
+    user_id INT,
+    role_id INT,
+    assigned_date DATE
+);
+
+CREATE TABLE access_logs (
+    log_id INT PRIMARY KEY,
+    user_id INT,
+    login_time TIMESTAMP,
+    ip_address VARCHAR(50),
+    access_type VARCHAR(50)
+);
+
+CREATE TABLE permissions (
+    permission_id INT PRIMARY KEY,
+    role_id INT,
+    resource VARCHAR(50),
+    access_level VARCHAR(20)
+);
+
+📊 3. KEY IAM METRICS (SQL QUERIES)
+🔹 Inactive Users
+SELECT COUNT(*) AS inactive_users
+FROM users
+WHERE last_login_date < CURRENT_DATE - INTERVAL '90 days';
+
+🔹 High-Risk Users
+SELECT u.username, r.risk_level
+FROM users u
+JOIN user_roles ur ON u.user_id = ur.user_id
+JOIN roles r ON ur.role_id = r.role_id
+WHERE r.risk_level = 'High';
+
+🔹 Privileged Access (Admin)
+SELECT COUNT(DISTINCT user_id) AS admin_users
+FROM permissions p
+JOIN user_roles ur ON p.role_id = ur.role_id
+WHERE p.access_level = 'Admin';
+
+🔹 Login Activity Trend
+SELECT DATE(login_time) AS login_date, COUNT(*) AS logins
+FROM access_logs
+GROUP BY DATE(login_time)
+ORDER BY login_date;
+
+🔹 Users with Multiple Roles (Risk Indicator)
+SELECT user_id, COUNT(role_id) AS role_count
+FROM user_roles
+GROUP BY user_id
+HAVING COUNT(role_id) > 1;
+
+📈 4. DASHBOARD DESIGN (POWER BI / TABLEAU)
+
+## Visuals to Include
+
+# KPI Cards:
+
+Total Users
+Inactive Users
+High-Risk Users
+
+# Bar Chart:
+Users by Risk Level
+
+# Line Chart:
+Login Trends
+
+# Table:
+Users with multiple roles
